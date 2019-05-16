@@ -16,26 +16,7 @@ import java.net.URL;
 import java.util.List;
 
 public class JSONreader {
-/*    public class jsonToString extends AsyncTask<String, Void, String> {
 
-        String TAG = "DownloadJSON";
-    @Override
-    protected void onPostExecute(String s) {
-        leFaturasDeJSONString(String jsonString, List listaContato);
-    }
-
-    @Override
-    protected String doInBackground(String... strings) {
-        Log.d(TAG, "doInBackground: "+strings[0]);
-        String json = downloadJson(strings[0]);
-        if (json == null){
-            Log.e(TAG, "doInBackground: Erro baixando JSON");
-        }
-
-        return json;
-        }
-    }
-*/
     public static List<Contato> leFaturasDeJSONString(String jsonString, List listaContato) {
         try {
             JSONObject json = new JSONObject(jsonString);
@@ -59,15 +40,15 @@ public class JSONreader {
         return listaContato;
     }
 
-    public String downloadJson(String urlString){
+    public String downloadJson(String urlString) {
         String TAG = "DownloadJSON";
         StringBuilder jsonString = new StringBuilder();
 
         try {
             URL url = new URL(urlString);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            int resposta  = connection.getResponseCode();
-            Log.e(TAG, "DownloadJSON: Código de resposta: "+resposta );
+            int resposta = connection.getResponseCode();
+            Log.e(TAG, "DownloadJSON: Código de resposta: " + resposta);
 
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(connection.getInputStream())
@@ -75,23 +56,22 @@ public class JSONreader {
 
             int charsLidos;
             char[] InputBuffer = new char[500];
-            while(true){
+            while (true) {
                 charsLidos = reader.read(InputBuffer);
-                if(charsLidos<0){
+                if (charsLidos < 0) {
                     break;
                 }
-                if(charsLidos>0){
+                if (charsLidos > 0) {
                     jsonString.append(String.copyValueOf(InputBuffer, 0, charsLidos));
                 }
             }
             reader.close();
             return jsonString.toString();
-        }
-        catch (MalformedURLException e){
-            Log.e(TAG, "DownloadJSON: URL é invalido" + e.getMessage());
+        } catch (MalformedURLException e) {
+            Log.e(TAG, "DownloadJSON: URL é inválido" + e.getMessage());
 
         } catch (IOException e) {
-            Log.e(TAG, "DownloadJSON: Ocorreu um erro de IO ao baixar dados: "+e.getMessage() );
+            Log.e(TAG, "DownloadJSON: Ocorreu um erro de IO ao baixar dados: " + e.getMessage());
 
         }
         return null;
